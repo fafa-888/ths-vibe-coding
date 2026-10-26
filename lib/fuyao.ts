@@ -4,6 +4,7 @@ const BASE = "https://fuyao.aicubes.cn";
 const CURRENT_REPORT = "2026-2";
 const PREVIOUS_REPORT = "2025-2";
 const MAX_STOCKS = 16;
+const GROWTH_FIELD = "calculate_operating_income_yoy_growth_ratio";
 
 type Envelope<T> = { code: number; message: string; request_id?: string; data: T | null };
 type ItemList<T> = { timestamp: number | null; item: T[]; total?: number };
@@ -40,15 +41,15 @@ function metric(value: number | null, unit: Metric["unit"], field: string, perio
 }
 
 function financialMetric(data: Financial, report: string, requestId: string | null): Metric {
-  const raw = data.abilities?.flatMap((ability) => ability.indicators ?? []).find((item) => item.index_id === "operating_income_yoy_growth_ratio")?.value;
+  const raw = data.abilities?.flatMap((ability) => ability.indicators ?? []).find((item) => item.index_id === GROWTH_FIELD)?.value;
   const value = raw === null || raw === undefined || raw.trim() === "" ? null : Number(raw);
-  return metric(value !== null && Number.isFinite(value) ? value : null, "%", "operating_income_yoy_growth_ratio", report, null, requestId, "接口按百分数值返回；缺失值保留为空");
+  return metric(value !== null && Number.isFinite(value) ? value : null, "%", GROWTH_FIELD, report, null, requestId, "接口按百分数值返回；缺失值保留为空");
 }
 
 async function stockFacts(stock: Constituent, valuation: Valuation | undefined, valuationTime: number | null, valuationRequest: string | null, key: string, now: number): Promise<StockFacts> {
   const errors: string[] = [];
-  const emptyGrowth = metric(null, "%", "operating_income_yoy_growth_ratio", CURRENT_REPORT, null, null);
-  const emptyPrevious = metric(null, "%", "operating_income_yoy_growth_ratio", PREVIOUS_REPORT, null, null);
+  const emptyGrowth = metric(null, "%", GROWTH_FIELD, CURRENT_REPORT, null, null);
+  const emptyPrevious = metric(null, "%", GROWTH_FIELD, PREVIOUS_REPORT, null, null);
   const facts: StockFacts = {
     code: stock.thscode, name: stock.name,
     metrics: {

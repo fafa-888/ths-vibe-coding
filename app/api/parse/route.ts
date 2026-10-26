@@ -1,4 +1,5 @@
 import { DEFAULT_RULES, validateRules, type RuleConfig } from "../../../lib/screener";
+import { serverEnv } from "../../../lib/runtime-env";
 
 export const dynamic = "force-dynamic";
 
@@ -24,9 +25,9 @@ export function parseResponse(text: string): { rules: RuleConfig; note: string }
 }
 
 export async function POST(request: Request) {
-  const apiKey = process.env.AI_API_KEY;
-  const model = process.env.AI_MODEL;
-  const baseUrl = process.env.AI_BASE_URL;
+  const [apiKey, model, baseUrl] = await Promise.all([
+    serverEnv("AI_API_KEY"), serverEnv("AI_MODEL"), serverEnv("AI_BASE_URL"),
+  ]);
   if (!apiKey || !model || !baseUrl) return Response.json({ error: "模型尚未配置。你可以手动调整下方默认条件；配置后可使用“理解意图”。" }, { status: 503 });
   try {
     const { intent } = await request.json() as { intent?: string };

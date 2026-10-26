@@ -86,7 +86,7 @@ export function evaluate(stock: StockFacts, config: RuleConfig): StockResult {
     value: growth.value === null || previous.value === null ? null : growth.value - previous.value,
     unit: "%",
     source: "由两期扶摇财务指标计算",
-    field: "operating_income_yoy_growth_ratio 差值",
+    field: "calculate_operating_income_yoy_growth_ratio 差值",
     period: `${growth.period} 对比 ${previous.period}`,
     timestamp: growth.timestamp,
     requestId: growth.requestId,
