@@ -24,6 +24,8 @@ npm run dev
 | `AI_MODEL` | AI 解析必需 | 兼容 Chat Completions 接口的模型 ID |
 | `AI_BASE_URL` | AI 解析必需 | HTTPS API 基址，末尾可含 `/v1` |
 
+千问百炼按量付费北京地域可使用 `AI_MODEL=qwen-plus`、`AI_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1`。其他地域或 Coding Plan 请按对应服务文档更换接口地址；地域与 Key 不匹配会报 401。参见[阿里云百炼 Base URL 总览](https://help.aliyun.com/zh/model-studio/base-url)与[千问 OpenAI 兼容接口说明](https://help.aliyun.com/zh/model-studio/compatibility-of-openai-with-dashscope)。
+
 配置模型后，`/api/parse` 才会启用“理解意图”；未配置时仍可手工编辑默认条件。若扶摇密钥未配置，`/api/dataset` 返回 503，界面不会展示虚构股票。
 
 ## 用户主链路
