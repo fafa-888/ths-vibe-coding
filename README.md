@@ -1,6 +1,6 @@
 # 选股条件工作台
 
-面向同花顺 AI 产品经理笔试题的可操作 Web 产品。用户输入自然语言选股意图，检查和修改结构化条件，再基于真实金融数据查看筛选结果及逐项依据。产品仅做条件筛选与解释，不提供投资建议。
+面向同花顺 AI 产品经理笔试题的可操作 Web 产品。用户输入自然语言选股意图，检查和修改结构化条件，再基于扶摇金融数据查看筛选结果及逐项依据。产品提供条件筛选与解释，不提供投资建议。
 
 已部署站点：[选股条件工作台](https://stock-intent-lab-1026.alivehen130.chatgpt.site/)（持链接者可访问）。
 
@@ -26,7 +26,7 @@ npm run dev
 | `AI_MODEL` | AI 解析必需 | 兼容 Chat Completions 接口的模型 ID |
 | `AI_BASE_URL` | AI 解析必需 | HTTPS API 基址，末尾可含 `/v1` |
 
-千问百炼按量付费北京地域可使用 `AI_MODEL=qwen-plus`、`AI_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1`。其他地域或 Coding Plan 请按对应服务文档更换接口地址；地域与 Key 不匹配会报 401。参见[阿里云百炼 Base URL 总览](https://help.aliyun.com/zh/model-studio/base-url)与[千问 OpenAI 兼容接口说明](https://help.aliyun.com/zh/model-studio/compatibility-of-openai-with-dashscope)。
+当前站点使用千问百炼按量付费北京地域的 `qwen-plus`，接口基址为 `https://dashscope.aliyuncs.com/compatible-mode/v1`。参见[阿里云百炼 Base URL 总览](https://help.aliyun.com/zh/model-studio/base-url)与[千问 OpenAI 兼容接口说明](https://help.aliyun.com/zh/model-studio/compatibility-of-openai-with-dashscope)。
 
 配置模型后，`/api/parse` 才会启用“理解意图”；未配置时仍可手工编辑默认条件。若扶摇密钥未配置，`/api/dataset` 返回 503，界面不会展示虚构股票。
 
@@ -55,16 +55,15 @@ npm run dev
 - **扶摇：**提供成分股、估值、财务和日 K 事实数据。服务端持有 Key；前端不可接触密钥。
 - **确定性引擎：**计算回撤、校验冲突、按阈值判断、生成可复核的逐项结果。存在已证实不满足的条件时为“未通过”；没有失败但有缺失条件时为“数据不足”。
 
-## 错误与已知边界
+## 交付范围与异常处理
 
 - 产品只评估页面标明的 16 只样本，不代表指数全量或全 A 股。
-- 财务口径固定为 2026 与 2025 半年报，未实现报告期自动切换；到新报告季需要更新。
+- 财务口径固定为 2026 与 2025 半年报。
 - 扶摇估值 `data.timestamp` 是本批次上游指标元数据的**最大**有效时间，不是每只股票每个指标的独立更新时间。页面展示这一限制。
 - 估值与日 K 的批次/最新时间超过 14 天时标记数据不足；财务数据按报告期展示。
-- 股票方案保存在浏览器 `localStorage`，不是跨设备账户保存；清除浏览器数据后无法恢复。
-- 未做回测、自动监控、全市场实时筛选、逐行业估值比较或确定性收益预测。
+- 股票方案保存在当前浏览器的 `localStorage`，支持再次载入。
 - 用户直接调整条件时在同一份快照上比较；切换股票池后重新取数，不把不同时点的数据混作一次条件影响。
-- 外部接口可能限流、超时、权限不足或返回部分股票；错误保留并如实呈现。公开站点已配置有效密钥并完成真实调用；独立部署需配置自己的密钥和接口权限。
+- 数据缺失时显示“数据不足”；成分股接口拒绝访问时停止生成结果并保留上游请求标识。公开站点已配置密钥并完成真实调用；独立部署需配置自己的密钥和接口权限。
 
 ## 数据文档
 
