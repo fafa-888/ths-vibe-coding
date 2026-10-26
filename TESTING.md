@@ -12,7 +12,7 @@ node --import tsx --test tests/*.test.ts
 npm run build
 ```
 
-类型检查通过，9 项测试全部通过，生产构建通过。测试代码见 [确定性筛选](./tests/screener.test.ts)、[扶摇接口适配](./tests/fuyao.test.ts)和[模型响应校验](./tests/parse.test.ts)。
+类型检查通过，9 项测试全部通过，生产构建通过。测试代码见 [确定性筛选](https://github.com/fafa-888/ths-vibe-coding/blob/main/tests/screener.test.ts)、[扶摇接口适配](https://github.com/fafa-888/ths-vibe-coding/blob/main/tests/fuyao.test.ts)和[模型响应校验](https://github.com/fafa-888/ths-vibe-coding/blob/main/tests/parse.test.ts)。
 
 ## 已验证场景
 
@@ -35,4 +35,4 @@ npm run build
 | 移动窄屏 | 390px 视口无横向滚动，主操作可见 | 无头 Edge 设备仿真通过 |
 | 保证收益及直接买入提示 | 不输出收益承诺或个股买入建议 | 公开解析接口实测通过 |
 
-公网主链路的浏览器验证脚本见 [browser-check.mjs](./scripts/browser-check.mjs)。2026-10-26 的 1/15/0 是当次白酒概念前 16 只样本的结果，不作为固定输出；原始字段与 `request_id` 示例见 [AI 使用与验证记录](./AI_USAGE.md)。
+公网主链路的浏览器验证脚本见 [browser-check.mjs](https://github.com/fafa-888/ths-vibe-coding/blob/main/scripts/browser-check.mjs)。2026-10-26 的 1/15/0 是当次白酒概念前 16 只样本的结果，不作为固定输出；原始字段与 `request_id` 示例见 [AI 使用与验证记录](./AI_USAGE.md)。
